@@ -89,9 +89,11 @@ public with sharing class SOQL {
 	 * @return A map of Task Ids to Task records.
 	 * Update the corresponding test class and testGetTasksDueNextWeek method to cover this method
 	 */
-	//[public | private ] [static] data_type method_name (input parameters) {
-	//  The body of the method
-	//}
+	public static Map<Id, Task> getTasksDueNextWeek () {
+		// Date dueDateRange = TODAY() <= 7 ;
+		Map<Id, Task> taskMap = new Map<Id, Task>([SELECT Id, WhoId FROM Task WHERE ActivityDate = NEXT_N_DAYS:7]);
+		return taskMap;
+	}
 
 	/**
 	 * Question 7
@@ -100,9 +102,10 @@ public with sharing class SOQL {
 	 * @return A list of Contact records.
 	 * Update the corresponding test class and testGetContactsByEmailDomain method to cover this method
 	 */
-	//[public | private ] [static] data_type method_name (input parameters) {
-	//  The body of the method
-	//}
+	public static List<Contact> getContactsByEmailDomain () {
+		List<Contact> contactList = [SELECT Id, Name, Email FROM Contact WHERE Email LIKE '%example.com'];
+		return contactList;
+	}
 
 	/**
 	 * Question 8

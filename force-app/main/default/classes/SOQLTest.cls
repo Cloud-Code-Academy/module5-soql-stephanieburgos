@@ -157,52 +157,52 @@ public with sharing class SOQLTest {
 		System.assertEquals(numAccounts, accountCount, 'Number of accounts returned is incorrect.');
 	}
 
-	// @IsTest
-	// static void testGetTasksDueNextWeek() {
-	// 	// Create test data
-	// 	Task testTask1 = new Task(Subject = 'Test Task 1', ActivityDate = Date.today().addDays(7)); // due in 7 days
-	// 	Task testTask2 = new Task(Subject = 'Test Task 2', ActivityDate = Date.today().addDays(10)); // due in 8 days, should not be returned
-	// 	Task testTask3 = new Task(Subject = 'Test Task 3', ActivityDate = Date.today().addDays(2)); // due in 6 days
-	// 	Task testTask4 = new Task(Subject = 'Test Task 4', ActivityDate = Date.today().addDays(14)); // due in 14 days, should not be returned
-	// 	Task testTask5 = new Task(Subject = 'Test Task 5', ActivityDate = Date.today().addDays(-5)); // due in the past, should not be returned
-	// 	insert new List<Task>{ testTask1, testTask2, testTask3 };
+	@IsTest
+	static void testGetTasksDueNextWeek() {
+		// Create test data
+		Task testTask1 = new Task(Subject = 'Test Task 1', ActivityDate = Date.today().addDays(7)); // due in 7 days
+		Task testTask2 = new Task(Subject = 'Test Task 2', ActivityDate = Date.today().addDays(10)); // due in 8 days, should not be returned
+		Task testTask3 = new Task(Subject = 'Test Task 3', ActivityDate = Date.today().addDays(2)); // due in 6 days
+		Task testTask4 = new Task(Subject = 'Test Task 4', ActivityDate = Date.today().addDays(14)); // due in 14 days, should not be returned
+		Task testTask5 = new Task(Subject = 'Test Task 5', ActivityDate = Date.today().addDays(-5)); // due in the past, should not be returned
+		insert new List<Task>{ testTask1, testTask2, testTask3 };
 
-	// 	// Call the method to test
-	// 	Map<Id, Task> tasks = null; //Replace null with your method call from SOQL class
+		// Call the method to test
+		Map<Id, Task> tasks = SOQL.getTasksDueNextWeek(); //Replace null with your method call from SOQL class
 
-	// 	// Assert that the number of tasks returned is correct
-	// 	System.assertEquals(2, tasks.size(), 'Number of tasks returned is incorrect.');
+		// Assert that the number of tasks returned is correct
+		System.assertEquals(2, tasks.size(), 'Number of tasks returned is incorrect.');
 
-	// 	// Assert that the tasks returned are the correct ones
-	// 	Set<Id> expectedTaskIds = new Set<Id>{ testTask1.Id, testTask3.Id };
-	// 	System.assertEquals(expectedTaskIds, tasks.keySet(), 'Returned tasks are incorrect.');
-	// }
+		// Assert that the tasks returned are the correct ones
+		Set<Id> expectedTaskIds = new Set<Id>{ testTask1.Id, testTask3.Id };
+		System.assertEquals(expectedTaskIds, tasks.keySet(), 'Returned tasks are incorrect.');
+	}
 
-	// @IsTest
-	// static void testGetContactsByEmailDomain() {
-	// 	// Create test data
-	// 	Contact testContact1 = new Contact(FirstName = 'John', LastName = 'Doe', Email = 'john@example.com');
-	// 	Contact testContact2 = new Contact(FirstName = 'Jane', LastName = 'Smith', Email = 'jane@example.com');
-	// 	Contact testContact3 = new Contact(FirstName = 'Jack', LastName = 'Brown', Email = 'jack@other.com');
-	// 	insert new List<Contact>{ testContact1, testContact2, testContact3 };
+	@IsTest
+	static void testGetContactsByEmailDomain() {
+		// Create test data
+		Contact testContact1 = new Contact(FirstName = 'John', LastName = 'Doe', Email = 'john@example.com');
+		Contact testContact2 = new Contact(FirstName = 'Jane', LastName = 'Smith', Email = 'jane@example.com');
+		Contact testContact3 = new Contact(FirstName = 'Jack', LastName = 'Brown', Email = 'jack@other.com');
+		insert new List<Contact>{ testContact1, testContact2, testContact3 };
 
-	// 	// Call the method to test
-	// 	List<Contact> contacts = null; //Replace null with your method call from SOQL class
+		// Call the method to test
+		List<Contact> contacts = SOQL.getContactsByEmailDomain(); //Replace null with your method call from SOQL class
 
-	// 	// Assert that the number of contacts returned is correct
-	// 	System.assertEquals(2, contacts.size(), 'Number of contacts returned is incorrect.');
+		// Assert that the number of contacts returned is correct
+		System.assertEquals(2, contacts.size(), 'Number of contacts returned is incorrect.');
 
-	// 	// Assert that the contacts returned have the correct names and email domains
-	// 	Set<String> contactNames = new Set<String>{ 'John Doe', 'Jane Smith' };
-	// 	try {
-	// 		for (Contact contact : contacts) {
-	// 			System.assert(contactNames.contains(contact.Name), 'Contact name is incorrect.');
-	// 			System.assert(contact.Email.contains('example.com'), 'Contact email domain is incorrect.');
-	// 		}
-	// 	} catch (SObjectException ex) {
-	// 		Assert.fail('SObjectException thrown: ' + ex.getMessage());
-	// 	}
-	// }
+		// Assert that the contacts returned have the correct names and email domains
+		Set<String> contactNames = new Set<String>{ 'John Doe', 'Jane Smith' };
+		try {
+			for (Contact contact : contacts) {
+				System.assert(contactNames.contains(contact.Name), 'Contact name is incorrect.');
+				System.assert(contact.Email.contains('example.com'), 'Contact email domain is incorrect.');
+			}
+		} catch (SObjectException ex) {
+			Assert.fail('SObjectException thrown: ' + ex.getMessage());
+		}
+	}
 
 	// @IsTest
 	// static void testGetOpportunitiesByNameKeyword() {
