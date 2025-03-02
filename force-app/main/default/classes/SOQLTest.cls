@@ -517,83 +517,83 @@ public with sharing class SOQLTest {
 		}
 	}
 
-	// @IsTest
-	// static void testGetCasesWithStatus() {
-	// 	// Create test data
-	// 	List<Case> cases = new List<Case>();
-	// 	for (Integer i = 0; i < 20; i++) {
-	// 		cases.add(
-	// 			new Case(
-	// 				Subject = 'Test Case ' + i,
-	// 				Status = 'Open'
-	// 				// Assume that Cases are created in order, so the CreatedDate will be in ascending order
-	// 			)
-	// 		);
-	// 	}
-	// 	insert cases;
+	@IsTest
+	static void testGetCasesWithStatus() {
+		// Create test data
+		List<Case> cases = new List<Case>();
+		for (Integer i = 0; i < 20; i++) {
+			cases.add(
+				new Case(
+					Subject = 'Test Case ' + i,
+					Status = 'Open'
+					// Assume that Cases are created in order, so the CreatedDate will be in ascending order
+				)
+			);
+		}
+		insert cases;
 
-	// 	// Call the method to test
-	// 	List<Case> returnedCases = SOQL.getCasesWithStatus();
+		// Call the method to test
+		List<Case> returnedCases = SOQL.getCasesWithStatus();
 
-	// 	// Assert that the number of cases returned is correct
-	// 	System.assertEquals(10, returnedCases.size(), 'Number of cases returned is incorrect.');
+		// Assert that the number of cases returned is correct
+		System.assertEquals(10, returnedCases.size(), 'Number of cases returned is incorrect.');
 
-	// 	// Assert that the cases returned are ordered correctly by CreatedDate
-	// 	for (Integer i = 0; i < returnedCases.size() - 1; i++) {
-	// 		System.assert(
-	// 			returnedCases[i].CreatedDate <= returnedCases[i + 1].CreatedDate,
-	// 			'Cases are not ordered correctly by CreatedDate.'
-	// 		);
-	// 	}
+		// Assert that the cases returned are ordered correctly by CreatedDate
+		for (Integer i = 0; i < returnedCases.size() - 1; i++) {
+			System.assert(
+				returnedCases[i].CreatedDate <= returnedCases[i + 1].CreatedDate,
+				'Cases are not ordered correctly by CreatedDate.'
+			);
+		}
 
-	// 	// Assert that the first case returned is the 6th case created
-	// 	System.assertEquals(cases[5].Id, returnedCases[0].Id, 'First case returned is not the 6th case created.');
-	// }
+		// Assert that the first case returned is the 6th case created
+		System.assertEquals(cases[5].Id, returnedCases[0].Id, 'First case returned is not the 6th case created.');
+	}
 
-	// @IsTest
-	// static void testGetCaseIdsByAccount() {
-	// 	// Create test data
-	// 	// Generate random number of accounts and cases between 1 and 10
-	// 	Integer numAccounts = (Integer) Math.floor(Math.random() * 10) + 1;
-	// 	List<Account> accounts = new List<Account>();
-	// 	for (Integer i = 0; i < numAccounts; i++) {
-	// 		accounts.add(new Account(Name = 'Test Account ' + i));
-	// 	}
-	// 	insert accounts;
+	@IsTest
+	static void testGetCaseIdsByAccount() {
+		// Create test data
+		// Generate random number of accounts and cases between 1 and 10
+		Integer numAccounts = (Integer) Math.floor(Math.random() * 10) + 1;
+		List<Account> accounts = new List<Account>();
+		for (Integer i = 0; i < numAccounts; i++) {
+			accounts.add(new Account(Name = 'Test Account ' + i));
+		}
+		insert accounts;
 
-	// 	List<Case> cases = new List<Case>();
-	// 	Map<Id, List<Case>> accountCases = new Map<Id, List<Case>>();
-	// 	for (Account acc : accounts) {
-	// 		Integer numCases = (Integer) Math.floor(Math.random() * 10) + 1;
-	// 		List<Case> tempCaseList = new List<Case>();
-	// 		for (Integer i = 0; i < numCases; i++) {
-	// 			tempCaseList.add(new Case(Subject = 'Test Case ' + i, AccountId = acc.Id, Status = 'Open'));
-	// 		}
-	// 		accountCases.put(acc.Id, tempCaseList);
-	// 		cases.addAll(tempCaseList);
-	// 	}
-	// 	insert cases;
+		List<Case> cases = new List<Case>();
+		Map<Id, List<Case>> accountCases = new Map<Id, List<Case>>();
+		for (Account acc : accounts) {
+			Integer numCases = (Integer) Math.floor(Math.random() * 10) + 1;
+			List<Case> tempCaseList = new List<Case>();
+			for (Integer i = 0; i < numCases; i++) {
+				tempCaseList.add(new Case(Subject = 'Test Case ' + i, AccountId = acc.Id, Status = 'Open'));
+			}
+			accountCases.put(acc.Id, tempCaseList);
+			cases.addAll(tempCaseList);
+		}
+		insert cases;
 
-	// 	// Call the method to test
-	// 	Account testAccount = accounts[(Integer) Math.floor(Math.random() * accounts.size())];
-	// 	Set<Id> caseIds = SOQL.getCaseIdsByAccount(testAccount.Id);
+		// Call the method to test
+		Account testAccount = accounts[(Integer) Math.floor(Math.random() * accounts.size())];
+		Set<Id> caseIds = SOQL.getCaseIdsByAccount(testAccount.Id);
 
-	// 	// Assert that the number of case IDs returned is correct
-	// 	System.assertEquals(
-	// 		accountCases.get(testAccount.Id).size(),
-	// 		caseIds.size(),
-	// 		'Number of case IDs returned is incorrect.'
-	// 	);
+		// Assert that the number of case IDs returned is correct
+		System.assertEquals(
+			accountCases.get(testAccount.Id).size(),
+			caseIds.size(),
+			'Number of case IDs returned is incorrect.'
+		);
 
-	// 	// Assert that the case IDs returned are correct
-	// 	try {
-	// 		for (Case caseObj : accountCases.get(testAccount.Id)) {
-	// 			System.assert(caseIds.contains(caseObj.Id), 'Case ID is incorrect.');
-	// 		}
-	// 	} catch (Exception ex) {
-	// 		Assert.fail('Exception thrown: ' + ex.getMessage());
-	// 	}
-	// }
+		// Assert that the case IDs returned are correct
+		try {
+			for (Case caseObj : accountCases.get(testAccount.Id)) {
+				System.assert(caseIds.contains(caseObj.Id), 'Case ID is incorrect.');
+			}
+		} catch (Exception ex) {
+			Assert.fail('Exception thrown: ' + ex.getMessage());
+		}
+	}
 
 	// @IsTest
 	// static void testGetAccountIdsToNamesNotInCountry() {

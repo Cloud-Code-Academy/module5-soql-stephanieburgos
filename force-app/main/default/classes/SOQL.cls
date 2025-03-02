@@ -209,7 +209,7 @@ public with sharing class SOQL {
 	 * @return A list of Cases
 	 */
 	public static List<Case> getCasesWithStatus() {
-		return null; // Replace null with the variable you used to store the result
+		return [SELECT Status, CreatedDate FROM Case WHERE Status = 'Open' ORDER BY CreatedDate Asc LIMIT 10 OFFSET 5 ]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -221,14 +221,15 @@ public with sharing class SOQL {
 	 */
 	public static Set<Id> getCaseIdsByAccount(Id accountId) {
 		// Create a set to hold the Case Ids
-
+		Set<Id> caseIds = new Set<Id>();
 		// Query the Cases
+		List<Case> casesList = [SELECT Id, AccountId FROM Case WHERE AccountId = :accountId];
 		// Loop through each Case and add the Id to the set
-		//for () {
-		//
-		//}
+		for (Case eachCase : casesList) {
+			caseIds.add(eachCase.Id);
+		}
 
-		return null; // Replace null with the variable you used to store the result
+		return caseIds; // Replace null with the variable you used to store the result
 	}
 
 	/**
