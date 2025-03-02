@@ -204,318 +204,318 @@ public with sharing class SOQLTest {
 		}
 	}
 
-	// @IsTest
-	// static void testGetOpportunitiesByNameKeyword() {
-	// 	// Create test data
-	// 	Account testAccount = new Account(Name = 'Test Account');
-	// 	insert testAccount;
+	@IsTest
+	static void testGetOpportunitiesByNameKeyword() {
+		// Create test data
+		Account testAccount = new Account(Name = 'Test Account');
+		insert testAccount;
 
-	// 	Opportunity testOpportunity1 = new Opportunity(
-	// 		Name = 'Test Opportunity 1',
-	// 		StageName = 'Prospecting',
-	// 		CloseDate = Date.today(),
-	// 		AccountId = testAccount.Id
-	// 	);
-	// 	Opportunity testOpportunity2 = new Opportunity(
-	// 		Name = 'Keyword Opportunity',
-	// 		StageName = 'Prospecting',
-	// 		CloseDate = Date.today(),
-	// 		AccountId = testAccount.Id
-	// 	);
-	// 	Opportunity testOpportunity3 = new Opportunity(
-	// 		Name = 'Test Opportunity 3',
-	// 		StageName = 'Prospecting',
-	// 		CloseDate = Date.today(),
-	// 		AccountId = testAccount.Id
-	// 	);
-	// 	insert new List<Opportunity>{ testOpportunity1, testOpportunity2, testOpportunity3 };
+		Opportunity testOpportunity1 = new Opportunity(
+			Name = 'Test Opportunity 1',
+			StageName = 'Prospecting',
+			CloseDate = Date.today(),
+			AccountId = testAccount.Id
+		);
+		Opportunity testOpportunity2 = new Opportunity(
+			Name = 'Keyword Opportunity',
+			StageName = 'Prospecting',
+			CloseDate = Date.today(),
+			AccountId = testAccount.Id
+		);
+		Opportunity testOpportunity3 = new Opportunity(
+			Name = 'Test Opportunity 3',
+			StageName = 'Prospecting',
+			CloseDate = Date.today(),
+			AccountId = testAccount.Id
+		);
+		insert new List<Opportunity>{ testOpportunity1, testOpportunity2, testOpportunity3 };
 
-	// 	// Call the method to test
-	// 	List<Opportunity> opportunities = SOQL.getOpportunitiesByNameKeyword('Keyword');
+		// Call the method to test
+		List<Opportunity> opportunities = SOQL.getOpportunitiesByNameKeyword('Keyword');
 
-	// 	// Assert that the number of opportunities returned is correct
-	// 	System.assertEquals(1, opportunities.size(), 'Number of opportunities returned is incorrect.');
+		// Assert that the number of opportunities returned is correct
+		System.assertEquals(1, opportunities.size(), 'Number of opportunities returned is incorrect.');
 
-	// 	// Assert that the opportunities returned have the correct names
-	// 	System.assertEquals('Keyword Opportunity', opportunities[0].Name, 'Opportunity name is incorrect.');
+		// Assert that the opportunities returned have the correct names
+		System.assertEquals('Keyword Opportunity', opportunities[0].Name, 'Opportunity name is incorrect.');
 
-	// 	opportunities = SOQL.getOpportunitiesByNameKeyword('Test');
-	// 	System.assertEquals(2, opportunities.size(), 'Number of opportunities returned is incorrect.');
+		opportunities = SOQL.getOpportunitiesByNameKeyword('Test');
+		System.assertEquals(2, opportunities.size(), 'Number of opportunities returned is incorrect.');
 
-	// 	opportunities = SOQL.getOpportunitiesByNameKeyword('Supra');
-	// 	System.assertEquals(0, opportunities.size(), 'Number of opportunities returned is incorrect.');
+		opportunities = SOQL.getOpportunitiesByNameKeyword('Supra');
+		System.assertEquals(0, opportunities.size(), 'Number of opportunities returned is incorrect.');
 
-	// 	opportunities = SOQL.getOpportunitiesByNameKeyword(null);
-	// 	System.assertEquals(0, opportunities.size(), 'Number of opportunities returned is incorrect.');
-	// }
+		opportunities = SOQL.getOpportunitiesByNameKeyword(null);
+		System.assertEquals(0, opportunities.size(), 'Number of opportunities returned is incorrect.');
+	}
 
-	// @IsTest
-	// static void testGetFilterCaseOrigins() {
-	// 	// Create test data
-	// 	Account testAccount = new Account(Name = 'Test Account');
-	// 	insert testAccount;
+	@IsTest
+	static void testGetFilterCaseOrigins() {
+		// Create test data
+		Account testAccount = new Account(Name = 'Test Account');
+		insert testAccount;
 
-	// 	Case testCase1 = new Case(Status = 'New', AccountId = testAccount.Id, Origin = 'Phone');
-	// 	Case testCase2 = new Case(Status = 'New', AccountId = testAccount.Id, Origin = 'Email');
-	// 	Case testCase3 = new Case(Status = 'New', AccountId = testAccount.Id, Origin = 'Web');
-	// 	Case testCase4 = new Case(Status = 'New', AccountId = testAccount.Id, Origin = '');
-	// 	insert new List<Case>{ testCase1, testCase2, testCase3, testCase4 };
+		Case testCase1 = new Case(Status = 'New', AccountId = testAccount.Id, Origin = 'Phone');
+		Case testCase2 = new Case(Status = 'New', AccountId = testAccount.Id, Origin = 'Email');
+		Case testCase3 = new Case(Status = 'New', AccountId = testAccount.Id, Origin = 'Web');
+		Case testCase4 = new Case(Status = 'New', AccountId = testAccount.Id, Origin = '');
+		insert new List<Case>{ testCase1, testCase2, testCase3, testCase4 };
 
-	// 	// Call the method to test
-	// 	List<Case> cases = SOQL.getFilterCaseOrigins();
+		// Call the method to test
+		List<Case> cases = SOQL.getFilterCaseOrigins();
 
-	// 	// Assert that the number of cases returned is correct
-	// 	System.assertEquals(1, cases.size(), 'Number of cases returned is incorrect.');
+		// Assert that the number of cases returned is correct
+		System.assertEquals(1, cases.size(), 'Number of cases returned is incorrect.');
 
-	// 	// Assert that the cases returned have the correct Origin
-	// 	Set<Id> caseIds = new Set<Id>{ testCase1.Id, testCase2.Id };
-	// 	try {
-	// 		for (Case cs : cases) {
-	// 			System.assert(caseIds.contains(cs.Id), 'Case Id is incorrect.');
-	// 			Assert.isNotNull(cs.Origin, 'Case Origin is null.');
-	// 		}
-	// 	} catch (SObjectException ex) {
-	// 		Assert.fail('SObjectException thrown: ' + ex.getMessage());
-	// 	}
-	// }
+		// Assert that the cases returned have the correct Origin
+		Set<Id> caseIds = new Set<Id>{ testCase1.Id, testCase2.Id };
+		try {
+			for (Case cs : cases) {
+				System.assert(caseIds.contains(cs.Id), 'Case Id is incorrect.');
+				Assert.isNotNull(cs.Origin, 'Case Origin is null.');
+			}
+		} catch (SObjectException ex) {
+			Assert.fail('SObjectException thrown: ' + ex.getMessage());
+		}
+	}
 
-	// @IsTest
-	// static void testGetLeadsBySourceOrTitle() {
-	// 	// Create test data
-	// 	Lead testLead1 = new Lead(
-	// 		LastName = 'Test Lead 1',
-	// 		Company = 'Test Company 1',
-	// 		Phone = '1234567890',
-	// 		Email = 'lead1@email.com',
-	// 		LeadSource = 'Web',
-	// 		Title = 'Manager'
-	// 	);
-	// 	Lead testLead2 = new Lead(
-	// 		LastName = 'Test Lead 2',
-	// 		Company = 'Test Company 2',
-	// 		Phone = '0987654321',
-	// 		Email = 'lead2@email.com',
-	// 		LeadSource = 'Phone',
-	// 		Title = 'Engineer Lead'
-	// 	);
-	// 	Lead testLead3 = new Lead(
-	// 		LastName = 'Test Lead 3',
-	// 		Company = 'Test Company 3',
-	// 		Phone = '1234567890',
-	// 		Email = 'lead3@email.com',
-	// 		LeadSource = 'Email',
-	// 		Title = 'Director'
-	// 	);
-	// 	Lead testLead4 = new Lead(
-	// 		LastName = 'Test Lead 4',
-	// 		Company = 'Test Company 4',
-	// 		Phone = '0987654321',
-	// 		Email = 'lead4@email.com',
-	// 		LeadSource = 'Web',
-	// 		Title = 'Sr Engineer'
-	// 	);
-	// 	Lead testLead5 = new Lead(
-	// 		LastName = 'Test Lead 5',
-	// 		Company = 'Test Company 5',
-	// 		Phone = '1234567890',
-	// 		Email = '',
-	// 		LeadSource = '',
-	// 		Title = ''
-	// 	);
-	// 	insert new List<Lead>{ testLead1, testLead2, testLead3, testLead4 };
+	@IsTest
+	static void testGetLeadsBySourceOrTitle() {
+		// Create test data
+		Lead testLead1 = new Lead(
+			LastName = 'Test Lead 1',
+			Company = 'Test Company 1',
+			Phone = '1234567890',
+			Email = 'lead1@email.com',
+			LeadSource = 'Web',
+			Title = 'Manager'
+		);
+		Lead testLead2 = new Lead(
+			LastName = 'Test Lead 2',
+			Company = 'Test Company 2',
+			Phone = '0987654321',
+			Email = 'lead2@email.com',
+			LeadSource = 'Phone',
+			Title = 'Engineer Lead'
+		);
+		Lead testLead3 = new Lead(
+			LastName = 'Test Lead 3',
+			Company = 'Test Company 3',
+			Phone = '1234567890',
+			Email = 'lead3@email.com',
+			LeadSource = 'Email',
+			Title = 'Director'
+		);
+		Lead testLead4 = new Lead(
+			LastName = 'Test Lead 4',
+			Company = 'Test Company 4',
+			Phone = '0987654321',
+			Email = 'lead4@email.com',
+			LeadSource = 'Web',
+			Title = 'Sr Engineer'
+		);
+		Lead testLead5 = new Lead(
+			LastName = 'Test Lead 5',
+			Company = 'Test Company 5',
+			Phone = '1234567890',
+			Email = '',
+			LeadSource = '',
+			Title = ''
+		);
+		insert new List<Lead>{ testLead1, testLead2, testLead3, testLead4 };
 
-	// 	// Call the method to test
-	// 	List<Lead> leads = null; //Replace null with your method passing 'Web', 'Engineer'
+		// Call the method to test
+		List<Lead> leads = SOQL.getLeadsBySourceOrTitle('Web', 'Engineer'); //Replace null with your method passing 'Web', 'Engineer'
 
-	// 	// Assert that the number of leads returned is correct
-	// 	System.assertEquals(3, leads.size(), 'Number of leads returned is incorrect.');
+		// Assert that the number of leads returned is correct
+		System.assertEquals(3, leads.size(), 'Number of leads returned is incorrect.');
 
-	// 	// Assert that the leads returned have the correct names
-	// 	Set<String> leadNames = new Set<String>{ 'Test Lead 1', 'Test Lead 2', 'Test Lead 4' };
-	// 	try {
-	// 		for (Lead lead : leads) {
-	// 			System.assert(leadNames.contains(lead.LastName), 'Lead name is incorrect.');
-	// 			Assert.isNotNull(lead.Company, 'Lead company is null.');
-	// 			Assert.isNotNull(lead.Phone, 'Lead phone is null.');
-	// 			Assert.isNotNull(lead.Email, 'Lead email is null.');
-	// 		}
-	// 	} catch (SObjectException ex) {
-	// 		Assert.fail('SObjectException thrown: ' + ex.getMessage());
-	// 	}
-	// }
+		// Assert that the leads returned have the correct names
+		Set<String> leadNames = new Set<String>{ 'Test Lead 1', 'Test Lead 2', 'Test Lead 4' };
+		try {
+			for (Lead lead : leads) {
+				System.assert(leadNames.contains(lead.LastName), 'Lead name is incorrect.');
+				Assert.isNotNull(lead.Company, 'Lead company is null.');
+				Assert.isNotNull(lead.Phone, 'Lead phone is null.');
+				Assert.isNotNull(lead.Email, 'Lead email is null.');
+			}
+		} catch (SObjectException ex) {
+			Assert.fail('SObjectException thrown: ' + ex.getMessage());
+		}
+	}
 
-	// @IsTest
-	// static void testGetContactNamesByAccount() {
-	// 	// Create test data
-	// 	// Generate random number of accounts and contacts between 1 and 10
-	// 	Integer numAccounts = (Integer) Math.floor(Math.random() * 10) + 1;
-	// 	List<Account> accounts = new List<Account>();
-	// 	for (Integer i = 0; i < numAccounts; i++) {
-	// 		accounts.add(new Account(Name = 'Test Account ' + i));
-	// 	}
-	// 	insert accounts;
+	@IsTest
+	static void testGetContactNamesByAccount() {
+		// Create test data
+		// Generate random number of accounts and contacts between 1 and 10
+		Integer numAccounts = (Integer) Math.floor(Math.random() * 10) + 1;
+		List<Account> accounts = new List<Account>();
+		for (Integer i = 0; i < numAccounts; i++) {
+			accounts.add(new Account(Name = 'Test Account ' + i));
+		}
+		insert accounts;
 
-	// 	List<Contact> contacts = new List<Contact>();
-	// 	Map<Id, List<Contact>> accountContacts = new Map<Id, List<Contact>>();
+		List<Contact> contacts = new List<Contact>();
+		Map<Id, List<Contact>> accountContacts = new Map<Id, List<Contact>>();
 
-	// 	for (Account acc : accounts) {
-	// 		Integer numContacts = (Integer) Math.floor(Math.random() * 10) + 1;
-	// 		List<Contact> tempContList = new List<Contact>();
-	// 		for (Integer i = 0; i < numContacts; i++) {
-	// 			tempContList.add(new Contact(LastName = 'Test Contact ' + i, AccountId = acc.Id));
-	// 		}
-	// 		accountContacts.put(acc.Id, tempContList);
-	// 		contacts.addAll(tempContList);
-	// 	}
+		for (Account acc : accounts) {
+			Integer numContacts = (Integer) Math.floor(Math.random() * 10) + 1;
+			List<Contact> tempContList = new List<Contact>();
+			for (Integer i = 0; i < numContacts; i++) {
+				tempContList.add(new Contact(LastName = 'Test Contact ' + i, AccountId = acc.Id));
+			}
+			accountContacts.put(acc.Id, tempContList);
+			contacts.addAll(tempContList);
+		}
 
-	// 	insert contacts;
+		insert contacts;
 
-	// 	// Call the method to test
-	// 	Account testAccount = accounts[(Integer) Math.floor(Math.random() * accounts.size())];
-	// 	List<String> contactNames = SOQL.getContactNamesByAccount(testAccount.Id);
+		// Call the method to test
+		Account testAccount = accounts[(Integer) Math.floor(Math.random() * accounts.size())];
+		List<String> contactNames = SOQL.getContactNamesByAccount(testAccount.Id);
 
-	// 	// Assert that the number of contact names returned is correct
-	// 	System.assertEquals(
-	// 		accountContacts.get(testAccount.Id).size(),
-	// 		contactNames.size(),
-	// 		'Number of contact names returned is incorrect.'
-	// 	);
+		// Assert that the number of contact names returned is correct
+		System.assertEquals(
+			accountContacts.get(testAccount.Id).size(),
+			contactNames.size(),
+			'Number of contact names returned is incorrect.'
+		);
 
-	// 	// Assert that the contact names returned are correct
-	// 	try {
-	// 		for (Contact cont : accountContacts.get(testAccount.Id)) {
-	// 			System.assert(contactNames.contains(cont.LastName), 'Contact name is incorrect.');
-	// 		}
-	// 	} catch (Exception ex) {
-	// 		Assert.fail('Exception thrown: ' + ex.getMessage());
-	// 	}
-	// }
+		// Assert that the contact names returned are correct
+		try {
+			for (Contact cont : accountContacts.get(testAccount.Id)) {
+				System.assert(contactNames.contains(cont.LastName), 'Contact name is incorrect.');
+			}
+		} catch (Exception ex) {
+			Assert.fail('Exception thrown: ' + ex.getMessage());
+		}
+	}
 
-	// @IsTest
-	// static void testGetTotalRevenueByStage() {
-	// 	// Create test data
-	// 	Opportunity testOpp1 = new Opportunity(
-	// 		Name = 'Test Opportunity 1',
-	// 		StageName = 'Prospecting',
-	// 		Amount = 5000,
-	// 		CloseDate = Date.today()
-	// 	);
-	// 	Opportunity testOpp2 = new Opportunity(
-	// 		Name = 'Test Opportunity 2',
-	// 		StageName = 'Closed Won',
-	// 		Amount = 20000,
-	// 		CloseDate = Date.today()
-	// 	);
-	// 	Opportunity testOpp3 = new Opportunity(
-	// 		Name = 'Test Opportunity 3',
-	// 		StageName = 'Closed Lost',
-	// 		Amount = 15000,
-	// 		CloseDate = Date.today()
-	// 	);
-	// 	Opportunity testOpp4 = new Opportunity(
-	// 		Name = 'Test Opportunity 4',
-	// 		StageName = 'Closed Won',
-	// 		Amount = 10000,
-	// 		CloseDate = Date.today()
-	// 	);
-	// 	insert new List<Opportunity>{ testOpp1, testOpp2, testOpp3, testOpp4 };
+	@IsTest
+	static void testGetTotalRevenueByStage() {
+		// Create test data
+		Opportunity testOpp1 = new Opportunity(
+			Name = 'Test Opportunity 1',
+			StageName = 'Prospecting',
+			Amount = 5000,
+			CloseDate = Date.today()
+		);
+		Opportunity testOpp2 = new Opportunity(
+			Name = 'Test Opportunity 2',
+			StageName = 'Closed Won',
+			Amount = 20000,
+			CloseDate = Date.today()
+		);
+		Opportunity testOpp3 = new Opportunity(
+			Name = 'Test Opportunity 3',
+			StageName = 'Closed Lost',
+			Amount = 15000,
+			CloseDate = Date.today()
+		);
+		Opportunity testOpp4 = new Opportunity(
+			Name = 'Test Opportunity 4',
+			StageName = 'Closed Won',
+			Amount = 10000,
+			CloseDate = Date.today()
+		);
+		insert new List<Opportunity>{ testOpp1, testOpp2, testOpp3, testOpp4 };
 
-	// 	// Call the method to test
-	// 	Decimal totalRevenue = SOQL.getTotalRevenueByStage('Closed Won');
+		// Call the method to test
+		Decimal totalRevenue = SOQL.getTotalRevenueByStage('Closed Won');
 
-	// 	// Assert that the total revenue returned is correct
-	// 	Decimal expectedRevenue = testOpp2.Amount + testOpp3.Amount + testOpp4.Amount;
-	// 	System.assertEquals(expectedRevenue, totalRevenue, 'Total revenue is incorrect.');
-	// }
+		// Assert that the total revenue returned is correct
+		Decimal expectedRevenue = testOpp2.Amount + testOpp3.Amount + testOpp4.Amount;
+		System.assertEquals(expectedRevenue, totalRevenue, 'Total revenue is incorrect.');
+	}
 
-	// @IsTest
-	// static void testGetFirstTenAccounts() {
-	// 	// Create test data
-	// 	List<Account> accounts = new List<Account>();
-	// 	for (Integer i = 0; i < 15; i++) {
-	// 		accounts.add(new Account(Name = 'Test Account ' + i));
-	// 	}
-	// 	insert accounts;
+	@IsTest
+	static void testGetFirstTenAccounts() {
+		// Create test data
+		List<Account> accounts = new List<Account>();
+		for (Integer i = 0; i < 15; i++) {
+			accounts.add(new Account(Name = 'Test Account ' + i));
+		}
+		insert accounts;
 
-	// 	// Call the method to test
-	// 	List<Account> returnedAccounts = SOQL.getFirstTenAccounts();
+		// Call the method to test
+		List<Account> returnedAccounts = SOQL.getFirstTenAccounts();
 
-	// 	// Assert that the number of accounts returned is correct
-	// 	System.assertEquals(10, returnedAccounts.size(), 'Number of accounts returned is incorrect.');
+		// Assert that the number of accounts returned is correct
+		System.assertEquals(10, returnedAccounts.size(), 'Number of accounts returned is incorrect.');
 
-	// 	// Assert that the accounts returned are ordered correctly
-	// 	for (Integer i = 0; i < returnedAccounts.size() - 1; i++) {
-	// 		System.assert(
-	// 			returnedAccounts[i].Name.compareTo(returnedAccounts[i + 1].Name) <= 0,
-	// 			'Accounts are not ordered correctly.'
-	// 		);
-	// 	}
-	// }
+		// Assert that the accounts returned are ordered correctly
+		for (Integer i = 0; i < returnedAccounts.size() - 1; i++) {
+			System.assert(
+				returnedAccounts[i].Name.compareTo(returnedAccounts[i + 1].Name) <= 0,
+				'Accounts are not ordered correctly.'
+			);
+		}
+	}
 
-	// @IsTest
-	// static void testGetHighValueOpportunities() {
-	// 	// Create test data
-	// 	Account testAccount = new Account(Name = 'Test Account');
-	// 	insert testAccount;
+	@IsTest
+	static void testGetHighValueOpportunities() {
+		// Create test data
+		Account testAccount = new Account(Name = 'Test Account');
+		insert testAccount;
 
-	// 	List<Opportunity> opportunities = new List<Opportunity>();
-	// 	for (Integer i = 0; i < 10; i++) {
-	// 		opportunities.add(
-	// 			new Opportunity(
-	// 				Name = 'Test Opportunity ' + i,
-	// 				AccountId = testAccount.Id,
-	// 				CloseDate = System.today().addDays(i),
-	// 				StageName = 'Prospecting',
-	// 				Amount = 100000 * (i + 1)
-	// 			)
-	// 		);
-	// 	}
-	// 	insert opportunities;
+		List<Opportunity> opportunities = new List<Opportunity>();
+		for (Integer i = 0; i < 10; i++) {
+			opportunities.add(
+				new Opportunity(
+					Name = 'Test Opportunity ' + i,
+					AccountId = testAccount.Id,
+					CloseDate = System.today().addDays(i),
+					StageName = 'Prospecting',
+					Amount = 100000 * (i + 1)
+				)
+			);
+		}
+		insert opportunities;
 
-	// 	// Call the method to test
-	// 	List<Opportunity> returnedOpportunities = SOQL.getHighValueOpportunities();
+		// Call the method to test
+		List<Opportunity> returnedOpportunities = SOQL.getHighValueOpportunities();
 
-	// 	// Assert that the number of opportunities returned is correct
-	// 	System.assertEquals(5, returnedOpportunities.size(), 'Number of opportunities returned is incorrect.');
+		// Assert that the number of opportunities returned is correct
+		System.assertEquals(5, returnedOpportunities.size(), 'Number of opportunities returned is incorrect.');
 
-	// 	// Assert that the opportunities returned are ordered correctly
-	// 	for (Integer i = 0; i < returnedOpportunities.size() - 1; i++) {
-	// 		System.assert(
-	// 			returnedOpportunities[i].CloseDate <= returnedOpportunities[i + 1].CloseDate,
-	// 			'Opportunities are not ordered correctly.'
-	// 		);
-	// 		System.assert(returnedOpportunities[i].Amount > 100000, 'Opportunity amount is less than 100,000.');
-	// 	}
-	// }
+		// Assert that the opportunities returned are ordered correctly
+		for (Integer i = 0; i < returnedOpportunities.size() - 1; i++) {
+			System.assert(
+				returnedOpportunities[i].CloseDate <= returnedOpportunities[i + 1].CloseDate,
+				'Opportunities are not ordered correctly.'
+			);
+			System.assert(returnedOpportunities[i].Amount > 100000, 'Opportunity amount is less than 100,000.');
+		}
+	}
 
-	// @IsTest
-	// static void testGetBirthdateContacts() {
-	// 	// Create test data
-	// 	List<Contact> contacts = new List<Contact>();
-	// 	for (Integer i = 0; i < 10; i++) {
-	// 		contacts.add(
-	// 			new Contact(
-	// 				LastName = 'Test Contact ' + i,
-	// 				Birthdate = Date.today().addDays(-i) // Birthdates from today to 9 days ago
-	// 			)
-	// 		);
-	// 	}
-	// 	insert contacts;
+	@IsTest
+	static void testGetBirthdateContacts() {
+		// Create test data
+		List<Contact> contacts = new List<Contact>();
+		for (Integer i = 0; i < 10; i++) {
+			contacts.add(
+				new Contact(
+					LastName = 'Test Contact ' + i,
+					Birthdate = Date.today().addDays(-i) // Birthdates from today to 9 days ago
+				)
+			);
+		}
+		insert contacts;
 
-	// 	// Call the method to test
-	// 	List<Contact> returnedContacts = SOQL.getBirthdateContacts();
+		// Call the method to test
+		List<Contact> returnedContacts = SOQL.getBirthdateContacts();
 
-	// 	// Assert that the number of contacts returned is correct
-	// 	System.assertEquals(3, returnedContacts.size(), 'Number of contacts returned is incorrect.');
+		// Assert that the number of contacts returned is correct
+		System.assertEquals(3, returnedContacts.size(), 'Number of contacts returned is incorrect.');
 
-	// 	// Assert that the contacts returned are ordered correctly by Birthdate
-	// 	for (Integer i = 0; i < returnedContacts.size() - 1; i++) {
-	// 		System.assert(
-	// 			returnedContacts[i].Birthdate >= returnedContacts[i + 1].Birthdate,
-	// 			'Contacts are not ordered correctly by Birthdate.'
-	// 		);
-	// 	}
-	// }
+		// Assert that the contacts returned are ordered correctly by Birthdate
+		for (Integer i = 0; i < returnedContacts.size() - 1; i++) {
+			System.assert(
+				returnedContacts[i].Birthdate >= returnedContacts[i + 1].Birthdate,
+				'Contacts are not ordered correctly by Birthdate.'
+			);
+		}
+	}
 
 	// @IsTest
 	// static void testGetCasesWithStatus() {

@@ -90,7 +90,6 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetTasksDueNextWeek method to cover this method
 	 */
 	public static Map<Id, Task> getTasksDueNextWeek () {
-		// Date dueDateRange = TODAY() <= 7 ;
 		Map<Id, Task> taskMap = new Map<Id, Task>([SELECT Id, WhoId FROM Task WHERE ActivityDate = NEXT_N_DAYS:7]);
 		return taskMap;
 	}
@@ -103,8 +102,7 @@ public with sharing class SOQL {
 	 * Update the corresponding test class and testGetContactsByEmailDomain method to cover this method
 	 */
 	public static List<Contact> getContactsByEmailDomain () {
-		List<Contact> contactList = [SELECT Id, Name, Email FROM Contact WHERE Email LIKE '%example.com'];
-		return contactList;
+		return [SELECT Id, Name, Email FROM Contact WHERE Email LIKE '%example.com'];
 	}
 
 	/**
@@ -115,7 +113,8 @@ public with sharing class SOQL {
 	 * @return A list of Opportunity records.
 	 */
 	public static List<Opportunity> getOpportunitiesByNameKeyword(String keyword) {
-		return null; // Replace null with the variable you used to store the result
+		keyword = '%' + keyword + '%';
+		return [SELECT Id, Name FROM Opportunity WHERE Name LIKE :keyword]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -124,7 +123,7 @@ public with sharing class SOQL {
 	 * @return A list of Case records.
 	 */
 	public static List<Case> getFilterCaseOrigins() {
-		return null; // Replace null with the variable you used to store the result
+		return [SELECT Id, Origin FROM Case WHERE Origin NOT IN ('Web', 'Email', '')]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -137,9 +136,10 @@ public with sharing class SOQL {
 	 * @return A list of Lead records.
 	 * Update the corresponding test class and testGetLeadsBySourceOrTitle method to cover this method
 	 */
-	//[public | private ] [static] data_type method_name (input parameters) {
-	//  The body of the method
-	//}
+	public static List<Lead> getLeadsBySourceOrTitle (String leadSource, String keyword) {
+		keyword = '%' + keyword + '%';
+		return [SELECT LastName, LeadSource, Title, Company, Phone, Email FROM Lead WHERE LeadSource = :leadSource OR Title LIKE :keyword];
+	}
 
 	/**
 	 * Question 11
@@ -150,15 +150,16 @@ public with sharing class SOQL {
 	 */
 	public static List<String> getContactNamesByAccount(Id accountId) {
 		// Create a list to hold the Contact LastNames
-
+		List<String> contactLastNames = new List<String>();
 		// Query the Contacts
+		List<Contact> contactsList = [SELECT LastName FROM Contact WHERE AccountId = :accountId];
 		// Loop through each Contact and add the LastName to the list
-		//for () {
-		//
-		//}
+		for (Contact contact : contactsList) {
+			contactLastNames.add(contact.LastName);
+		}
 
 		// Return the list of Contact LastNames
-		return null; // Replace null with the variable you used to store the result
+		return contactLastNames; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -170,9 +171,9 @@ public with sharing class SOQL {
 	 */
 	public static Decimal getTotalRevenueByStage(String stage) {
 		// Use AggregateQuery to get the total revenue
-
+		AggregateResult result = [SELECT  SUM(Amount) totalAmount FROM Opportunity WHERE StageName = :stage OR Amount > 10000];
 		// Return the total revenue
-		return null; // Replace null with the variable you used to store the result
+		return (Decimal)result.get('totalAmount'); // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -181,7 +182,7 @@ public with sharing class SOQL {
 	 * @return A list of the first 10 Accounts ordered by Name.
 	 */
 	public static List<Account> getFirstTenAccounts() {
-		return null; // Replace null with the variable you used to store the result
+		return [SELECT Name FROM Account ORDER BY Name Asc LIMIT 10]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -190,7 +191,7 @@ public with sharing class SOQL {
 	 * @return A list of Opportunities with an Amount greater than 100,000, ordered by CloseDate, and limited to 5 records.
 	 */
 	public static List<Opportunity> getHighValueOpportunities() {
-		return null; // Replace null with the variable you used to store the result
+		return [SELECT Name, Amount, CloseDate FROM Opportunity WHERE Amount > 100000 ORDER BY CloseDate Asc LIMIT 5]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -199,7 +200,7 @@ public with sharing class SOQL {
 	 * @return A list of Contacts
 	 */
 	public static List<Contact> getBirthdateContacts() {
-		return null; // Replace null with the variable you used to store the result
+		return [SELECT Id, Name, Birthdate FROM Contact ORDER BY Birthdate Desc LIMIT 3]; // Replace null with the variable you used to store the result
 	}
 
 	/**
