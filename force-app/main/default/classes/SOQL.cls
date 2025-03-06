@@ -445,16 +445,14 @@ public with sharing class SOQL {
 		}
 	
 		// Loop through each Opportunity and update the Primary_Contact__c field
-		List<Opportunity> updatedOpps = new List<Opportunity>();
 		for (Opportunity opp : oppsList) {
 			if (mapOfAcctToCont.containsKey(opp.AccountId)) {
 				opp.Primary_Contact__c = mapOfAcctToCont.get(opp.AccountId).Id;
-				updatedOpps.add(opp);
 			}
 		}
 	
 		// Update the Opportunities
-		update updatedOpps;
+		update oppsList;
 		
 	}
 	
