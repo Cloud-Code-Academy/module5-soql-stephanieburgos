@@ -896,50 +896,50 @@ public with sharing class SOQLTest {
 		}
 	}
 
-	// @IsTest
-	// static void testSetPrimaryContact() {
-	// 	// Create test data
-	// 	Account testAccount1 = new Account(Name = 'Test Account 1');
-	// 	Account testAccount2 = new Account(Name = 'Test Account 2');
-	// 	insert new List<Account>{ testAccount1, testAccount2 };
+	@IsTest
+	static void testSetPrimaryContact() {
+		// Create test data
+		Account testAccount1 = new Account(Name = 'Test Account 1');
+		Account testAccount2 = new Account(Name = 'Test Account 2');
+		insert new List<Account>{ testAccount1, testAccount2 };
 
-	// 	Contact testContact1 = new Contact(FirstName = 'Zara', LastName = 'Smith', AccountId = testAccount1.Id);
-	// 	Contact testContact2 = new Contact(FirstName = 'Aaron', LastName = 'Johnson', AccountId = testAccount1.Id);
-	// 	Contact testContact4 = new Contact(FirstName = 'Jane', LastName = 'Doe', AccountId = testAccount1.Id);
-	// 	Contact testContact3 = new Contact(FirstName = 'John', LastName = 'Doe', AccountId = testAccount2.Id);
-	// 	insert new List<Contact>{ testContact1, testContact2, testContact3 };
+		Contact testContact1 = new Contact(FirstName = 'Zara', LastName = 'Smith', AccountId = testAccount1.Id);
+		Contact testContact2 = new Contact(FirstName = 'Aaron', LastName = 'Johnson', AccountId = testAccount1.Id);
+		Contact testContact4 = new Contact(FirstName = 'Jane', LastName = 'Doe', AccountId = testAccount1.Id);
+		Contact testContact3 = new Contact(FirstName = 'John', LastName = 'Doe', AccountId = testAccount2.Id);
+		insert new List<Contact>{ testContact1, testContact2, testContact3 };
 
-	// 	Opportunity closeWonOpp = new Opportunity(
-	// 		Name = 'Test Opp 1',
-	// 		StageName = 'Closed Won',
-	// 		CloseDate = Date.today(),
-	// 		AccountId = testAccount1.Id
-	// 	);
-	// 	Opportunity prospectingOpp = new Opportunity(
-	// 		Name = 'Test Opp 2',
-	// 		StageName = 'Prospecting',
-	// 		CloseDate = Date.today(),
-	// 		AccountId = testAccount2.Id
-	// 	);
-	// 	insert new List<Opportunity>{ closeWonOpp, prospectingOpp };
+		Opportunity closeWonOpp = new Opportunity(
+			Name = 'Test Opp 1',
+			StageName = 'Closed Won',
+			CloseDate = Date.today(),
+			AccountId = testAccount1.Id
+		);
+		Opportunity prospectingOpp = new Opportunity(
+			Name = 'Test Opp 2',
+			StageName = 'Prospecting',
+			CloseDate = Date.today(),
+			AccountId = testAccount2.Id
+		);
+		insert new List<Opportunity>{ closeWonOpp, prospectingOpp };
 
-	// 	// Call the method to test
-	// 	SOQL.setPrimaryContact();
+		// Call the method to test
+		SOQL.setPrimaryContact();
 
-	// 	// Query for the updated Opportunity
-	// 	// HINT: The repository has the primary contact field. You will need to figure out how to deploy it force-app\main\default\objects\Opportunity\fields\Primary_Contact__c.field-meta.xml
-	// 	Map<Id, Opportunity> oppMap = new Map<Id, Opportunity>([SELECT Id, Primary_Contact__c FROM Opportunity]);
+		// Query for the updated Opportunity
+		// HINT: The repository has the primary contact field. You will need to figure out how to deploy it force-app\main\default\objects\Opportunity\fields\Primary_Contact__c.field-meta.xml
+		Map<Id, Opportunity> oppMap = new Map<Id, Opportunity>([SELECT Id, Primary_Contact__c FROM Opportunity]);
 
-	// 	// Assert that the Primary Contact was set correctly
-	// 	System.assertEquals(
-	// 		testContact2.Id,
-	// 		oppMap.get(closeWonOpp.Id).Primary_Contact__c,
-	// 		'Primary Contact was not set correctly.'
-	// 	);
-	// 	System.assertEquals(
-	// 		null,
-	// 		oppMap.get(prospectingOpp.Id).Primary_Contact__c,
-	// 		'Primary Contact was set incorrectly.'
-	// 	);
-	// }
+		// Assert that the Primary Contact was set correctly
+		System.assertEquals(
+			testContact2.Id,
+			oppMap.get(closeWonOpp.Id).Primary_Contact__c,
+			'Primary Contact was not set correctly.'
+		);
+		System.assertEquals(
+			null,
+			oppMap.get(prospectingOpp.Id).Primary_Contact__c,
+			'Primary Contact was set incorrectly.'
+		);
+	}
 }
