@@ -182,7 +182,7 @@ public with sharing class SOQL {
 	 * @return A list of the first 10 Accounts ordered by Name.
 	 */
 	public static List<Account> getFirstTenAccounts() {
-		return [SELECT Name FROM Account WITH SECURITY_ENFORCED ORDER BY Name Asc LIMIT 10]; // Replace null with the variable you used to store the result
+		return [SELECT Name FROM Account WITH SECURITY_ENFORCED ORDER BY Name ASC LIMIT 10]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -191,7 +191,7 @@ public with sharing class SOQL {
 	 * @return A list of Opportunities with an Amount greater than 100,000, ordered by CloseDate, and limited to 5 records.
 	 */
 	public static List<Opportunity> getHighValueOpportunities() {
-		return [SELECT Name, Amount, CloseDate FROM Opportunity WHERE Amount > 100000 WITH SECURITY_ENFORCED ORDER BY CloseDate Asc LIMIT 5]; // Replace null with the variable you used to store the result
+		return [SELECT Name, Amount, CloseDate FROM Opportunity WHERE Amount > 100000 WITH SECURITY_ENFORCED ORDER BY CloseDate ASC LIMIT 5]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -200,7 +200,7 @@ public with sharing class SOQL {
 	 * @return A list of Contacts
 	 */
 	public static List<Contact> getBirthdateContacts() {
-		return [SELECT Id, Name, Birthdate FROM Contact WITH SECURITY_ENFORCED ORDER BY Birthdate Desc LIMIT 3]; // Replace null with the variable you used to store the result
+		return [SELECT Id, Name, Birthdate FROM Contact WITH SECURITY_ENFORCED ORDER BY Birthdate DESC LIMIT 3]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -209,7 +209,7 @@ public with sharing class SOQL {
 	 * @return A list of Cases
 	 */
 	public static List<Case> getCasesWithStatus() {
-		return [SELECT Status, CreatedDate FROM Case WHERE Status = 'Open' WITH SECURITY_ENFORCED ORDER BY CreatedDate Asc LIMIT 10 OFFSET 5 ]; // Replace null with the variable you used to store the result
+		return [SELECT Status, CreatedDate FROM Case WHERE Status = 'Open' WITH SECURITY_ENFORCED ORDER BY CreatedDate ASC LIMIT 10 OFFSET 5 ]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -261,7 +261,7 @@ public with sharing class SOQL {
 	 */
 	public static String getAccountNameForContact(String contactId) {
 		Contact cont = [SELECT Account.Name FROM Contact WHERE Id =:contactId WITH SECURITY_ENFORCED LIMIT 1];
-		return cont.Account != null ? cont.Account.Name : null; // Replace null with the variable you used to store the result
+		return cont?.Account?.Name; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -272,7 +272,7 @@ public with sharing class SOQL {
 	 * @return An Account record with related Opportunities.
 	 */
 	public static Account getAccountAndOpportunitiesFromAccountId(Id accountId) {
-		return [SELECT Id, Name, (SELECT Name FROM Opportunities WHERE AccountId = :accountId) FROM Account WITH SECURITY_ENFORCED]; // Replace null with the variable you used to store the result
+		return [SELECT Id, Name, (SELECT Name FROM Opportunities) FROM Account WHERE Id = :accountId WITH SECURITY_ENFORCED]; // Replace null with the variable you used to store the result
 	}
 
 	/**
@@ -284,7 +284,7 @@ public with sharing class SOQL {
 	 */
 	public static List<Contact> getAccountsWithContactsByState(Id accountId) {
 		// Query the Account
-		Account acct = [SELECT Id, Name, BillingState FROM Account WHERE Id = :accountId WITH SECURITY_ENFORCED];
+		Account acct = [SELECT Id, Name, BillingState FROM Account WHERE Id = :accountId WITH SECURITY_ENFORCED LIMIT 1];
 		// Store the Account's BillingState
 		String acctBillingState = acct.BillingState;
 		// Query the Contacts
@@ -346,7 +346,10 @@ public with sharing class SOQL {
 		// Create a list to hold the new line items
 		List<OpportunityLineItem> newLineItems = new List<OpportunityLineItem>();
 		// Generate a random number between 1 and 3
-		Integer randomNum = Math.round(Math.random() * 2) + 1;
+		Integer min = 1;
+        Integer max = 3;
+		Integer randomNum = Integer.valueOf( Math.random() * (max - min + 1) + min);
+		
 		// Loop through each cloned Opportunity Id
 		for (Id cloneOppId : cloneOppIds) {
 			for (OpportunityLineItem origItem : origLineItems) {
@@ -364,7 +367,7 @@ public with sharing class SOQL {
 		}
 		// Insert the new line items
 		if (!newLineItems.isEmpty()) {
-			insert as user newLineItems;
+			Database.insert(newLineItems, AccessLevel.SYSTEM_MODE);
 		}
 
 
@@ -407,22 +410,23 @@ public with sharing class SOQL {
 		];
 	
 		// Loop through each Contact and add the Account Id and Contact to the map
-		Map<Id, Contact> mapOfAcctToCont = new Map<Id, Contact>();
+		Map<Id, Contact> acctIdToCont = new Map<Id, Contact>();
 		for (Contact cont : contList) {
-			if (!mapOfAcctToCont.containsKey(cont.AccountId)) {
-				mapOfAcctToCont.put(cont.AccountId, cont);
+			if (!acctIdToCont.containsKey(cont.AccountId)) {
+				acctIdToCont.put(cont.AccountId, cont);
 			}
 		}
 	
 		// Loop through each Opportunity and update the Primary_Contact__c field
 		for (Opportunity opp : oppsList) {
-			if (mapOfAcctToCont.containsKey(opp.AccountId)) {
-				opp.Primary_Contact__c = mapOfAcctToCont.get(opp.AccountId).Id;
+			if (acctIdToCont.containsKey(opp.AccountId)) {
+				opp.Primary_Contact__c = acctIdToCont.get(opp.AccountId).Id;
 			}
 		}
 	
 		// Update the Opportunities
-		update oppsList;
+		Database.update(oppsList, AccessLevel.SYSTEM_MODE);
+		
 		
 	}
 	
